@@ -56,6 +56,8 @@ def fetch(url, retries=3):
 
 
 def fetch_json(path, params):
+    # 网站的 Cloudflare 会把相同 URL 的 API 结果缓存最多 4 小时，加时间戳参数避免读到旧数据
+    params = dict(params, _=int(time.time()))
     return json.loads(fetch(f"{API}/{path}?{urllib.parse.urlencode(params)}"))
 
 
